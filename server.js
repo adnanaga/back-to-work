@@ -1,7 +1,9 @@
+require('dotenv').config();
+
 const { exec } = require("child_process");
 
-const accountSid = "";
-const authToken = "";
+const accountSid = process.env.accountSID;
+const authToken = process.env.authToken;
 const client = require('twilio')(accountSid, authToken);
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
@@ -10,7 +12,7 @@ let counter = 0;
 const response = new VoiceResponse();
 response.play({
     loop : 1,
-},"");
+},"https://github.com/adnanaga/back-to-work/blob/main/backtowork.mp3?raw=true");
 
 
 setInterval(()=> {
@@ -28,6 +30,7 @@ setInterval(()=> {
 
         let memory = data[0].toString().split(' ').filter(i => i)[2];
 
+        // This seems like about the 
         if (parseFloat(memory) < 4){
             counter++;
             console.log("no music playing", counter)
@@ -35,15 +38,23 @@ setInterval(()=> {
             counter = 0;
         }
 
-        if (counter == 120){
+        // Let's wait for 10 mins
+        if (counter == 10){
             console.log("Havent been listening to music in a while");
             console.log("lets give you a call");
+
+        // Time to call you I guess
         client.calls
             .create({
                 twiml: response.toString(),
-                to: '',
-                from: ''
+                to: process.env.toPhoneNumber,
+                from: process.env.fromPhoneNumber,
             }).then(call => console.log(call.sid)).catch(e=>console.log(e));
+            
+            //Reset counter for now
+            counter = 0;
         }
+        
+        
     });
 }, 5000);
