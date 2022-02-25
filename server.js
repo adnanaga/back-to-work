@@ -7,6 +7,10 @@ const authToken = process.env.authToken;
 const client = require('twilio')(accountSid, authToken);
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
+let pollingTime = 5000;
+
+let allowedProcrastinationTime = 10; // in minutes
+
 let counter = 0;
 
 const response = new VoiceResponse();
@@ -39,7 +43,7 @@ setInterval(()=> {
         }
 
         // Let's wait for 10 mins
-        if (counter == 10){
+        if (counter == ((allowedProcrastinationTime * 1000 * 60)/pollingTime)){
             console.log("Havent been listening to music in a while");
             console.log("lets give you a call");
 
@@ -57,4 +61,4 @@ setInterval(()=> {
         
         
     });
-}, 5000);
+}, pollingTime);
