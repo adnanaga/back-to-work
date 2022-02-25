@@ -40,6 +40,7 @@ setInterval(()=> {
             console.log("no music playing", counter)
         } else {
             counter = 0;
+            console.log("Seems like you played", counter)
         }
 
         // Let's wait for 10 mins
