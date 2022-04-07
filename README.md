@@ -8,7 +8,7 @@ I have a lot of trouble with procrastination and distracting myself with other t
 
 ## Server.js
 
-We look at the memory usage of the Music app by first gripping the output
+We look at the memory usage of the Music app by first grepping the output
 
     ps aux | grep Contents/MacOS/Music
 
